@@ -118,30 +118,6 @@ function App() {
       <section id="resources">
         <h2>Learning Resources</h2>
         <ul className="resource-list">
-          {resources.map((resource) => (
-            <li key={resource.url}>
-              <a href={resource.url} target="_blank" rel="noreferrer">
-                <img
-                  className="resource-thumb"
-                  src={resource.thumbnail}
-                  alt=""
-                />
-                <div className="resource-body">
-                  <span className="resource-tag">{resource.tag}</span>
-                  <h3>{resource.title}</h3>
-                  <p>{resource.description}</p>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="resources">
-        <h2>Learning Resources</h2>
-        <ul className="resource-list">
           <li>
             <a
               href="https://www.youtube.com/watch?v=6S6czg1pPIU"
