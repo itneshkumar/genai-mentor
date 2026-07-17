@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { auth, googleProvider } from './firebase'
 import './App.css'
@@ -19,21 +19,76 @@ const categories = [
   { id: 'mlops', label: 'MLOps', upcoming: true },
 ]
 
+function ProfileMenu({ user, onHome, onSignOut }) {
+  const [open, setOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [open])
+
+  return (
+    <div className="profile-menu" ref={menuRef}>
+      <button
+        type="button"
+        className="profile-trigger"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <img className="nav-avatar" src={user.photoURL} alt="" />
+        <span className="nav-username">{user.displayName}</span>
+      </button>
+      {open && (
+        <div className="profile-dropdown">
+          <button
+            type="button"
+            className="profile-dropdown-item"
+            onClick={() => {
+              onHome()
+              setOpen(false)
+            }}
+          >
+            Home
+          </button>
+          <button type="button" className="profile-dropdown-item" disabled>
+            Course Analytics
+            <span className="upcoming-badge">Upcoming</span>
+          </button>
+          <button
+            type="button"
+            className="profile-dropdown-item"
+            onClick={() => {
+              onSignOut()
+              setOpen(false)
+            }}
+          >
+            Sign out
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function Nav({ user, checkingAuth, category, onCategoryChange, onSignOut }) {
   return (
     <nav className="nav-card">
       <div className="nav-profile">
         {!checkingAuth && user && (
-          <>
-            <img className="nav-avatar" src={user.photoURL} alt="" />
-            <span className="nav-username">{user.displayName}</span>
-            <button type="button" className="signout" onClick={onSignOut}>
-              Sign out
-            </button>
-          </>
+          <ProfileMenu
+            user={user}
+            onHome={() => onCategoryChange('genai')}
+            onSignOut={onSignOut}
+          />
         )}
       </div>
-      <span className="nav-brand">GenAI Mentor</span>
+      {!user && <span className="nav-brand">GenAI Mentor</span>}
       {user && (
         <div className="nav-tabs-wrapper">
           <div className="nav-tabs">
