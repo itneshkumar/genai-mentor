@@ -88,7 +88,7 @@ function Nav({ user, checkingAuth, category, onCategoryChange, onSignOut }) {
           />
         )}
       </div>
-      {!user && <span className="nav-brand">GenAI Mentor</span>}
+      {!user && <span className="nav-brand">AI Mentor</span>}
       {user && (
         <div className="nav-tabs-wrapper">
           <div className="nav-tabs">
@@ -187,7 +187,7 @@ function App() {
         onSignOut={logout}
       />
 
-      <p id="subtitle">Courses on GenAI architecture, LangGraph, and MCP.</p>
+      <p id="subtitle">I will help you become AI-proof and thrive in the AI era.</p>
 
       <section id="courses">
         {checkingAuth ? null : !user ? (

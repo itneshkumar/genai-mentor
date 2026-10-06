@@ -226,9 +226,12 @@
 #subtitle {
   text-align: center;
   padding: 24px 32px 0;
+  font-size: 2rem;
+  font-weight: 600;
 
   @media (max-width: 1024px) {
     padding: 20px 20px 0;
+    font-size: 1.4rem;
   }
 }
 
